@@ -29,8 +29,13 @@ namespace MapAssist
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            if (args.Length > 0 && int.TryParse(args[0], out var pid))
+            {
+                Pid = pid;
+            }
+
             using (IKeyboardMouseEvents globalHook = Hook.GlobalEvents())
             {
                 Application.EnableVisualStyles();
@@ -38,5 +43,7 @@ namespace MapAssist
                 Application.Run(new Overlay(globalHook));
             }
         }
+
+        public static int Pid { get; private set; } = 0;
     }
 }

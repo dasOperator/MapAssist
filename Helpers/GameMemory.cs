@@ -46,8 +46,16 @@ namespace MapAssist.Helpers
             // Clean up and organize, add better exception handeling.
             try
             {
-                Process[] process = Process.GetProcessesByName(ProcessName);
-                Process gameProcess = process.Length > 0 ? process[0] : null;
+                Process gameProcess;
+                if (Program.Pid == 0)
+                {
+                    Process[] process = Process.GetProcessesByName(ProcessName);
+                    gameProcess = process.Length > 0 ? process[0] : null;
+                }
+                else
+                {
+                    gameProcess = Process.GetProcessById(Program.Pid);
+                }
 
                 if (gameProcess == null)
                 {
